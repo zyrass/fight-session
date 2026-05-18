@@ -29,6 +29,7 @@
       </div>
       
       <div class="header-actions">
+        <button id="btn-open-backpack" class="btn-open-backpack">🎒 Sac à Dos</button>
         <button id="btn-reset-game" class="btn-reset-game">Réinitialiser 🔄</button>
       </div>
     </header>
@@ -154,6 +155,19 @@
         </div>
       </section>
     </main>
+
+    <!-- COLLAPSIBLE BACKPACK DRAWER -->
+    <div id="backpack-drawer" class="backpack-drawer">
+      <div class="drawer-header">
+        <h3>🎒 Sac à dos</h3>
+        <button id="close-drawer-btn" class="close-drawer-btn">&times;</button>
+      </div>
+      <div class="drawer-content">
+        <ul id="backpack-list">
+          <!-- Dynamically populated via JS -->
+        </ul>
+      </div>
+    </div>
     <footer>
       <span>Copyright &copy; 2022-2023</span>
       <span id="date"></span>

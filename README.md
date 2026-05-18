@@ -59,14 +59,15 @@ Le jeu intègre **26 monstres uniques** instanciés répartis en 3 catégories d
 
 ---
 
-### 3. Boutique de Potions Accessible & Sac à Dos
+### 3. Boutique de Potions & Sac à Dos Interactif en Combat
 Pour survivre face aux créatures de haut niveau, le magasin propose des potions aux tarifs ajustés pour le début de partie :
 - 🧪 **Potion presque vide (+25% PV)** — **25 💵** *(Restes de fiole pour éviter le gaspillage)*
 - 🧪 **Potion à moitié pleine (+50% PV)** — **50 💵** *(Tarif d'ami spécial crise économique)*
 - 🧪 **Potion presque pleine (+75% PV)** — **100 💵** *(Ristourne sur aventurier décédé au combat)*
 - 🧪 **Potion parfaite (+100% PV)** — **200 💵** *(Prix fort pour une pureté absolue)*
 
-Le **Sac à Dos (Inventaire)** affiche en direct vos potions achetées ainsi qu'un badge dynamique contenant vos PV exacts. Grâce à un layout à deux colonnes isolé et une gestion soignée des `z-index`, le bouton vert **"Boire 🧪"** est accessible instantanément en un clic sans aucune obstruction.
+**Accès direct dans l'arène 🎒** :
+Vous disposez désormais d'un **accès complet et immédiat à votre sac à dos directement depuis la zone de combat** ! Un tiroir coulissant en verre dépoli (au design AAA) s'ouvre d'un clic sur le bouton de la Navbar. Vous pouvez y boire vos potions à tout moment en plein affrontement pour remonter vos points de vie en temps réel avant de frapper à nouveau. L'IHM, le journal de combat et le HUD persistant se mettent instantanément à jour !
 
 ---
 

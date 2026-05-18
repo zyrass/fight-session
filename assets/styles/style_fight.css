@@ -584,3 +584,160 @@ main section.combat div.loose div.actions button:last-child:hover {
     text-shadow: 0 0 35px rgba(236, 204, 104, 0.55);
   }
 }
+
+/**
+ * =============================================================
+ * COLLAPSIBLE BACKPACK DRAWER & TRIGGERS
+ * =============================================================
+ */
+
+/* Trigger button in header */
+.btn-open-backpack {
+  background: rgba(232, 204, 104, 0.1) !important;
+  color: var(--gold) !important;
+  border: 1px solid rgba(232, 204, 104, 0.4) !important;
+  border-radius: 20px;
+  padding: 8px 16px;
+  font-size: 13.5px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  margin-right: 15px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn-open-backpack:hover {
+  background: var(--gold) !important;
+  color: var(--primary) !important;
+  border-color: var(--gold) !important;
+  box-shadow: 0 0 15px rgba(232, 204, 104, 0.4);
+  transform: translateY(-1px);
+}
+
+/* Sliding Drawer Container */
+.backpack-drawer {
+  position: fixed;
+  top: 108px;
+  right: -360px; /* Hidden by default */
+  width: 320px;
+  height: calc(100vh - 108px - 60px); /* Height between header and footer */
+  background: rgba(15, 20, 30, 0.95);
+  border-left: 2px solid var(--gold);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: -10px 0 40px rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  z-index: 999;
+  transition: right 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  display: flex;
+  flex-direction: column;
+}
+
+.backpack-drawer.open {
+  right: 0; /* Slide in */
+}
+
+/* Header inside drawer */
+.backpack-drawer .drawer-header {
+  padding: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.backpack-drawer .drawer-header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--white);
+  letter-spacing: 1px;
+}
+
+.backpack-drawer .close-drawer-btn {
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  font-size: 28px;
+  cursor: pointer;
+  transition: color 0.2s;
+  line-height: 1;
+}
+
+.backpack-drawer .close-drawer-btn:hover {
+  color: var(--danger);
+}
+
+/* Content / list of items inside drawer */
+.backpack-drawer .drawer-content {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.backpack-drawer .drawer-content ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.backpack-drawer .drawer-content ul li {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.backpack-drawer .drawer-content ul li span.potion-name {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--white);
+}
+
+.backpack-drawer .drawer-content ul li div.item-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.backpack-drawer .drawer-content ul li span.potion-count {
+  font-size: 13px;
+  color: var(--gold);
+  font-weight: 700;
+}
+
+.backpack-drawer .drawer-content ul li button.drink-btn {
+  background: linear-gradient(135deg, var(--success) 0%, #2ecc71 100%);
+  color: var(--white);
+  border: none;
+  padding: 6px 14px;
+  border-radius: 15px;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(46, 213, 115, 0.3);
+  transition: all 0.3s;
+}
+
+.backpack-drawer .drawer-content ul li button.drink-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(46, 213, 115, 0.5);
+}
+
+.backpack-drawer .drawer-content .empty-inv-msg {
+  color: var(--muted);
+  font-style: italic;
+  font-size: 14px;
+  text-align: center;
+  margin-top: 30px;
+}

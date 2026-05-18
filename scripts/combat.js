@@ -400,3 +400,123 @@ if (btnReset) {
     }
   });
 }
+
+// =========================================================================
+// 8. CONTROLEUR DU SAC À DOS EN COMBAT
+// =========================================================================
+const btnOpenBackpack = document.getElementById("btn-open-backpack");
+const backpackDrawer = document.getElementById("backpack-drawer");
+const btnCloseDrawer = document.getElementById("close-drawer-btn");
+const backpackList = document.getElementById("backpack-list");
+
+// Configuration des potions pour le soin (soigne en % basé sur player.lifeMax)
+const potionsConfig = [
+  { id: "potion_25", name: "Potion de vie presque vide 🧪", healPercent: 25 },
+  { id: "potion_50", name: "Potion de vie à moitié pleine 🧪", healPercent: 50 },
+  { id: "potion_75", name: "Potion de vie presque pleine 🧪", healPercent: 75 },
+  { id: "potion_100", name: "Potion de vie parfaite 🧪", healPercent: 100 }
+];
+
+/**
+ * Affiche la liste des potions du sac à dos en direct.
+ */
+function renderBackpack() {
+  const inventory = JSON.parse(localStorage.getItem("inventory")) || {};
+  backpackList.innerHTML = "";
+  let isEmpty = true;
+
+  for (const key in inventory) {
+    if (inventory[key] > 0) {
+      isEmpty = false;
+      const pot = potionsConfig.find((p) => p.id === key);
+      if (!pot) continue;
+
+      const li = document.createElement("li");
+      li.innerHTML = `
+        <span class="potion-name">${pot.name}</span>
+        <div class="item-actions">
+          <span class="potion-count">En réserve : x${inventory[key]}</span>
+          <button class="drink-btn" data-id="${key}">Boire 🧪</button>
+        </div>
+      `;
+      backpackList.appendChild(li);
+    }
+  }
+
+  if (isEmpty) {
+    backpackList.innerHTML = `<div class="empty-inv-msg">🎒 Ton sac à dos est désespérément vide... Va au magasin après une victoire !</div>`;
+  }
+
+  // Liaison dynamique des clics de boisson
+  document.querySelectorAll(".backpack-drawer .drink-btn").forEach((btn) => {
+    btn.onclick = (e) => {
+      const potionId = e.target.getAttribute("data-id");
+      drinkPotionInFight(potionId);
+    };
+  });
+}
+
+/**
+ * Boit une potion en direct dans la zone de combat.
+ * @param {string} potionId - Identifiant de la potion.
+ */
+function drinkPotionInFight(potionId) {
+  if (player.life <= 0) {
+    alert("💀 Tu as péri au combat ! Tu ne peux plus boire de potions, baltringue !");
+    return;
+  }
+
+  if (player.life >= player.lifeMax) {
+    alert("❤️ Ta vie est déjà à son maximum ! Épargne tes ressources pour les coups durs !");
+    return;
+  }
+
+  const pot = potionsConfig.find((p) => p.id === potionId);
+  const inventory = JSON.parse(localStorage.getItem("inventory")) || {};
+
+  if (inventory[potionId] > 0) {
+    // Consommer 1 exemplaire
+    inventory[potionId]--;
+    const healAmount = Math.floor(player.lifeMax * (pot.healPercent / 100));
+    const oldHp = player.life;
+    player.life = Math.min(player.lifeMax, player.life + healAmount);
+    const actualHealed = player.life - oldHp;
+
+    // Enregistrement de l'état
+    localStorage.setItem("life", player.life);
+    localStorage.setItem("inventory", JSON.stringify(inventory));
+
+    // Mise à jour visuelle des PV du joueur dans sa fiche
+    playerLifeBarVal.textContent = player.life;
+
+    // Log dynamique dans le terminal de l'arène
+    historyPlayer.push({
+      turn: turnCount,
+      desc: `🧪 Tu as bu <strong>${pot.name}</strong> et regagné <strong>+${actualHealed} PV</strong> !`
+    });
+    updateLogs(logPlayer, historyPlayer);
+
+    // Rafraîchissement immédiat du sac et du HUD de navigation
+    renderBackpack();
+    updateHeaderHud();
+
+    alert(`🧪 Glou glou... Potion bue ! Tu regagnes +${actualHealed} PV ! ❤️`);
+  }
+}
+
+// Branchement des écouteurs du tiroir coulissant
+if (btnOpenBackpack) {
+  btnOpenBackpack.addEventListener("click", () => {
+    backpackDrawer.classList.toggle("open");
+    renderBackpack();
+  });
+}
+
+if (btnCloseDrawer) {
+  btnCloseDrawer.addEventListener("click", () => {
+    backpackDrawer.classList.remove("open");
+  });
+}
+
+// Premier rendu de l'état de l'inventaire au chargement de l'arène
+renderBackpack();

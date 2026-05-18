@@ -330,7 +330,7 @@ btnSubmit.addEventListener("click", (e) => {
 *   **Isolation des sélecteurs** : Utilisation du sélecteur d'enfant direct `main section.combat > div.left` pour ne pas écraser les logs du bas `.status-fight`.
 
 #### 14. [combat.js](file:///g:/www/projects/js/fight-session/scripts/combat.js)
-*   **Rôle** : Gérer les rounds d'attaque tour par tour au clic sur "Fight", la génération du monstre selon le niveau, et actualiser le HUD de la navbar.
+*   **Rôle** : Gérer les rounds d'attaque tour par tour au clic sur "Fight", la génération du monstre selon le niveau, actualiser le HUD de la navbar, et piloter le **sac à dos interactif en direct** (tiroir coulissant) pour boire des potions de vie et se soigner en pleine arène de combat.
 *   *Code clé commenté* :
 ```javascript
 import Player from "./class/Player.class.js";

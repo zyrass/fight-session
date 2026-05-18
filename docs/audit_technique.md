@@ -64,6 +64,7 @@ Tous les bugs débusqués lors de notre inspection initiale en laboratoire ont �
     2. Création d'une structure à double-colonne réactive `.shop-layout` pour séparer proprement le catalogue de potions et le sac à dos.
     3. Application d'un `z-index: 2` sur le sac à dos et de la propriété `pointer-events: none` sur l'image décorative de la princesse pour écarter tout risque de superposition de clics.
     4. Création d'une bulle de dialogue style bande dessinée immersive pour la marchande.
+    5. Intégration d'un **sac à dos interactif en direct dans la zone de combat** (tiroir coulissant rétractable) pour permettre au joueur de consulter ses potions et de se soigner en temps réel en plein combat, rendant le gameplay encore plus stratégique.
 
 ---
 
