@@ -1,20 +1,16 @@
 /**
  * =============================================================
- * PRESENTATION
+ * PRESENTATION REDESIGN (PREMIUM GLASSMORPHISM)
  * =============================================================
  */
 
-/**
- * =============================================================
- * MAIN
- * =============================================================
- */
 main {
   box-shadow: inset 0 0 150px var(--black-intense);
-  padding: 50px;
+  background-color: var(--bg-color-dark);
+  padding: 60px 40px;
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: repeat(5, 50px);
+  grid-template-rows: auto auto auto auto auto;
   grid-template-areas:
     "title"
     "message1"
@@ -22,70 +18,194 @@ main {
     "message3"
     "buttons";
   column-gap: 50px;
-  row-gap: 50px;
+  row-gap: 30px;
   justify-items: center;
   align-content: center;
+  min-height: calc(100vh - 108px); /* Fill the vertical grid space! */
 }
 
+/* Base style for the game title */
+main h1 {
+  grid-area: title;
+  font-size: 70px;
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--gold) 0%, #ffbe53 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 6px;
+  margin-bottom: 10px;
+}
+
+/* Beautiful frosted-glass paragraphs for maximum legibility */
 main p {
-  letter-spacing: 1.8px;
+  letter-spacing: 1.2px;
   width: 60%;
-  font-style: italic;
+  max-width: 800px;
   font-size: 18px;
-  color: var(--text-color);
+  line-height: 1.7;
+  color: var(--white);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 20px 30px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  text-align: center;
+  transition: transform 0.3s ease, border-color 0.3s ease;
 }
 
-main p:nth-child(0) {
+main p:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+main p strong {
+  color: var(--gold);
+  font-weight: 800;
+}
+
+main p em {
+  color: var(--danger);
+  font-style: normal;
+  font-weight: 700;
+}
+
+main p:nth-of-type(1) {
   grid-area: message1;
 }
-main p:nth-child(1) {
+main p:nth-of-type(2) {
   grid-area: message2;
 }
-main p:nth-child(4) {
+main p:nth-of-type(3) {
   grid-area: message3;
 }
+
+/* Buttons section container */
 main form {
   grid-area: buttons;
-  width: 100%;
+  width: 60%;
+  max-width: 800px;
   display: flex;
-  justify-content: space-around;
-}
-main form button:first-child {
-  background-color: var(--info-dark);
-  color: var(--white);
-}
-main form button:last-child {
-  background-color: var(--danger-dark);
-  color: var(--white);
+  justify-content: space-between;
+  gap: 30px;
+  margin-top: 15px;
 }
 
+/* High-end animated buttons */
+main form button {
+  flex: 1;
+  border: none;
+  border-radius: 8px;
+  padding: 18px 30px;
+  font-size: 16px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  cursor: pointer;
+}
+
+main form button:first-child {
+  background: linear-gradient(135deg, var(--info) 0%, var(--info-dark) 100%);
+  color: var(--white);
+  border: 1px solid rgba(30, 144, 255, 0.4);
+}
+
+main form button:first-child:hover {
+  background: linear-gradient(135deg, #3fa0ff 0%, var(--info) 100%);
+  box-shadow: 0 8px 25px rgba(30, 144, 255, 0.4);
+  transform: translateY(-3px) scale(1.03);
+}
+
+main form button:last-child {
+  background: linear-gradient(135deg, var(--danger) 0%, var(--danger-dark) 100%);
+  color: var(--white);
+  border: 1px solid rgba(255, 71, 87, 0.4);
+}
+
+main form button:last-child:hover {
+  background: linear-gradient(135deg, #ff6b81 0%, var(--danger) 100%);
+  box-shadow: 0 8px 25px rgba(255, 71, 87, 0.4);
+  transform: translateY(-3px) scale(1.03);
+}
+
+main form button:active {
+  transform: translateY(-1px) scale(1.01);
+}
+
+/**
+ * =============================================================
+ * DYNAMIC INSULT OVERLAY (LOOSER SCREEN)
+ * =============================================================
+ */
 main .looser {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   bottom: 0;
   right: 0;
-  background-color: var(--danger-dark);
-  opacity: 0.8;
-  backdrop-filter: blur(3px);
-  -webkit-backdrop-filter: blur(3px);
+  background-color: rgba(15, 18, 26, 0.97);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   padding: 50px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: 69px;
-  text-align: center;
-  color: var(--white);
-  text-shadow: 0 0 2.5px var(--black-intense);
-  box-shadow: inset 0 0 69px var(--black-intense);
+  z-index: 1000;
   visibility: hidden;
 }
 
+main .looser h2 {
+  font-size: 45px;
+  max-width: 900px;
+  line-height: 1.4;
+  text-align: center;
+  color: var(--danger);
+  text-shadow: 0 4px 20px rgba(255, 71, 87, 0.3);
+  margin-bottom: 40px;
+  animation: shake 0.5s infinite alternate;
+}
+
 main .looser button {
-  background-color: transparent;
+  background-color: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: absolute;
-  top: 50px;
-  right: 50px;
+  top: 40px;
+  right: 40px;
   color: var(--white);
   font-size: 24px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+main .looser button:hover {
+  background-color: var(--danger);
+  border-color: var(--danger);
+  transform: rotate(90deg) scale(1.1);
+}
+
+/* Shake animation for the insult title */
+@keyframes shake {
+  0% { transform: translate(1px, 1px) rotate(0deg); }
+  10% { transform: translate(-1px, -2px) rotate(-1deg); }
+  20% { transform: translate(-3px, 0px) rotate(1deg); }
+  30% { transform: translate(0px, 2px) rotate(0deg); }
+  40% { transform: translate(1px, -1px) rotate(1deg); }
+  50% { transform: translate(-1px, 2px) rotate(-1deg); }
+  60% { transform: translate(-3px, 1px) rotate(0deg); }
+  70% { transform: translate(2px, 1px) rotate(-1deg); }
+  80% { transform: translate(-1px, -1px) rotate(1deg); }
+  90% { transform: translate(2px, 2px) rotate(0deg); }
+  100% { transform: translate(1px, -2px) rotate(-1deg); }
 }

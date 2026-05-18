@@ -1,305 +1,497 @@
 /**
  * =============================================================
- * COMBAT
+ * COMBAT ARENA REDESIGN (PREMIUM FANTASY RPG STYLING)
  * =============================================================
  */
 
+/* Main combat container with balanced grid dimensions */
 main section.combat {
-  /* background-color: lightgrey; */
-  /* display: none !important; */
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 250px 50px 1fr;
+  grid-template-rows: 280px 70px auto;
   grid-template-areas:
     "left right"
     "fight fight"
     "infoCbt infoCbt";
-  grid-row-gap: 25px;
-  grid-column-gap: 50px;
+  grid-row-gap: 30px;
+  grid-column-gap: 60px;
+  padding: 40px;
+  min-height: calc(100vh - 108px);
+  background-color: var(--bg-color-dark);
+  box-shadow: inset 0 0 150px var(--black-intense);
 }
 
 /**
  * =============================================================
- * COMBAT PLAYER
+ * COMBATANTS LAYOUT (GAUCHE / DROITE)
  * =============================================================
  */
-
 main section.combat div.left {
   grid-area: left;
-  padding: 25px 0;
-}
-
-main section.combat div.left div.card {
-  width: 35%;
-  height: 100%;
-  margin-left: 100px;
-  border-radius: 8px;
-  background-size: cover;
-  background-image: url(../images/avatars/guerrier.jpeg);
-  border: 4px solid white;
-  box-shadow: 0 0 5px black;
-  position: relative;
-}
-
-main section.combat div.left div.card h3 {
-  position: absolute;
-  transform: rotate(-90deg);
-  top: 130px;
-  left: -80px;
-  font-size: 30px;
-  color: #f1f1f1;
-  text-shadow: 0 0 5px #000;
-}
-
-main section.combat div.left div.card div.stats {
-  position: absolute;
-  right: -250px;
-  height: 100%;
-  width: 100%;
-}
-
-main section.combat div.left div.card div.stats div.lifebar,
-main section.combat div.left div.card div.stats div.force {
   display: flex;
+  justify-content: center;
   align-items: center;
-  justify-content: space-between;
-  height: 25px;
-  margin-bottom: 15px;
+  padding: 20px 0;
 }
-
-main section.combat div.left div.card div.stats div.lifebar span {
-  color: red;
-  font-size: 25px;
-  align-self: baseline;
-}
-
-main section.combat div.left div.card div.stats div.lifebar progress {
-  width: 100%;
-  height: 100%;
-  margin: 15px 0 10px 15px;
-  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
-  background-color: lightgreen;
-}
-
-main section.combat div.left div.card div.stats div.force {
-  font-size: 20px;
-  font-weight: 700;
-  letter-spacing: 2px;
-}
-
-main section.combat div.left div.card div.stats div.series {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  font-size: 120px;
-  text-align: center;
-  opacity: 0.5;
-  color: #f1f1f1;
-  text-shadow: 0 0 2px #000;
-}
-
-/**
- * =============================================================
- * COMBAT MOB
- * =============================================================
- */
 
 main section.combat div.right {
   grid-area: right;
-  padding: 25px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 0;
 }
 
+/* Premium Fantasy Cards */
+main section.combat div.left div.card,
 main section.combat div.right div.card {
-  width: 35%;
-  height: 100%;
-  margin: 0 100px 0 auto;
-  border-radius: 8px;
+  width: 380px;
+  height: 240px;
+  border-radius: 16px;
+  border: 4px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), 0 0 20px rgba(255, 255, 255, 0.05);
   background-size: cover;
-  background-image: url(../images/avatars/assassin.jpeg);
-  border: 4px solid white;
-  box-shadow: 0 0 5px black;
+  background-position: center;
   position: relative;
+  overflow: visible;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), border-color 0.3s;
+}
+
+main section.combat div.left div.card:hover,
+main section.combat div.right div.card:hover {
+  transform: translateY(-5px) scale(1.02);
+  border-color: var(--gold);
+}
+
+/* Clean, readable top banners for names */
+main section.combat div.left div.card h3,
+main section.combat div.right div.card h3 {
+  position: absolute;
+  top: -45px;
+  left: 0;
+  font-size: 24px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--white);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9), 0 0 5px rgba(255, 255, 255, 0.2);
+  transform: none !important; /* Discard rotated style for pure legibility */
 }
 
 main section.combat div.right div.card h3 {
-  transform: rotate(90deg);
-  position: absolute;
-  top: 60px;
-  right: -110px;
-  font-size: 30px;
-  color: #f1f1f1;
-  text-shadow: 0 0 5px #000;
+  left: auto;
+  right: 0;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9), 0 0 5px rgba(255, 255, 255, 0.2);
 }
 
+/**
+ * =============================================================
+ * DYNAMIC STATUS PANELS (GLASSMORPHISM OVERLAYS)
+ * =============================================================
+ */
+main section.combat div.left div.card div.stats,
 main section.combat div.right div.card div.stats {
   position: absolute;
-  right: 250px;
-  height: 100%;
+  bottom: -110px;
+  left: 0;
   width: 100%;
+  background: rgba(30, 35, 45, 0.93);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: auto;
+  right: auto; /* Reset older absolute shifts */
 }
 
+/* Align force and bars inside the stats box */
+main section.combat div.left div.card div.stats div.lifebar,
+main section.combat div.left div.card div.stats div.force,
 main section.combat div.right div.card div.stats div.lifebar,
 main section.combat div.right div.card div.stats div.force {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  height: 25px;
-  margin-bottom: 15px;
+  justify-content: flex-start;
+  height: auto;
+  margin-bottom: 0;
+  gap: 10px;
 }
 
+main section.combat div.left div.card div.stats div.lifebar span,
 main section.combat div.right div.card div.stats div.lifebar span {
-  color: red;
-  font-size: 25px;
-  align-self: baseline;
+  font-size: 22px;
+  color: var(--danger);
+  align-self: center;
 }
 
+main section.combat div.left div.card div.stats div.lifebar div {
+  color: var(--white);
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+main section.combat div.left div.card div.stats div.force span:first-child,
+main section.combat div.right div.card div.stats div.force span:last-child {
+  font-size: 22px;
+}
+
+main section.combat div.left div.card div.stats div.force span:last-child,
+main section.combat div.right div.card div.stats div.force span:first-child {
+  color: var(--gold);
+  font-size: 18px;
+  font-weight: 800;
+}
+
+/* Smooth customized health bars */
 main section.combat div.right div.card div.stats div.lifebar progress {
+  flex-grow: 1;
   width: 100%;
-  height: 100%;
-  margin: 15px 15px 10px 0;
-  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
-  background-color: lightgreen;
+  height: 12px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: none;
+  background-color: rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.4);
+  margin: 0;
 }
 
-main section.combat div.right div.card div.stats div.force {
+main section.combat div.right div.card div.stats div.lifebar progress::-webkit-progress-bar {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+main section.combat div.right div.card div.stats div.lifebar progress::-webkit-progress-value {
+  background: linear-gradient(90deg, #2ed573 0%, #7bed9f 100%);
+}
+
+/* Beautiful circular streak emblem on player card */
+main section.combat div.left div.card div.stats div.series {
+  position: absolute;
+  top: -220px;
+  right: 15px;
+  background: linear-gradient(135deg, var(--gold) 0%, #d4ac0d 100%);
+  color: var(--secondary);
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5), 0 0 10px rgba(236, 204, 104, 0.3);
+  border: 3px solid var(--white);
+  z-index: 10;
+}
+
+main section.combat div.left div.card div.stats div.series span {
   font-size: 20px;
-  font-weight: 700;
-  letter-spacing: 2px;
+  font-weight: 900;
+  color: var(--secondary) !important;
+  text-shadow: none !important;
 }
 
 /**
  * =============================================================
- * COMBAT ACTION
+ * ACTION ATTACK BUTTON
  * =============================================================
  */
-
 main section.combat button {
   grid-area: fight;
-  width: 20%;
-  margin: 0 auto;
+  background: linear-gradient(135deg, var(--danger) 0%, #ff6b81 100%);
+  color: var(--white);
+  border: none;
+  border-radius: 50px;
+  width: 260px;
+  height: 60px;
+  font-size: 24px;
+  font-weight: 900;
   text-transform: uppercase;
-  font-weight: 700;
-  font-size: 30px;
+  letter-spacing: 1.5px;
+  box-shadow: 0 6px 25px rgba(255, 71, 87, 0.45);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   cursor: pointer;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+main section.combat button:hover {
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 10px 35px rgba(255, 71, 87, 0.65), 0 0 15px rgba(255, 107, 129, 0.4);
+  background: linear-gradient(135deg, #ff6b81 0%, var(--danger) 100%);
+}
+
+main section.combat button:active {
+  transform: translateY(-1px) scale(1.02);
 }
 
 /**
  * =============================================================
- * COMBAT INFORMATION CBT EN COURS
+ * LOGS TERMINAL (COMBAT ACTION LISTS)
  * =============================================================
  */
-
 main section.combat div.status-fight {
   grid-area: infoCbt;
   display: flex;
-  justify-content: space-around;
-  align-items: center;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 40px;
+  margin-top: 130px; /* Leaves clear breathing space for the cards */
 }
 
 main section.combat div.status-fight div.left,
 main section.combat div.status-fight div.right {
-  padding: 25px;
-  width: 550px;
+  background: rgba(30, 35, 45, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 24px;
+  width: 48%;
+  height: 240px;
+  overflow-y: auto;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
-
-/* main section.combat div.status-fight div.left {
-  background-color: lightcoral;
-}
-main section.combat div.status-fight div.right {
-  background-color: lightgreen;
-} */
 
 main section.combat div.status-fight div.left h4,
 main section.combat div.status-fight div.right h4 {
-  font-size: 20px;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--white);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 12px;
+  margin-bottom: 15px;
   text-align: center;
-  margin-bottom: 20px;
-  color: #f1f1f1;
-  text-shadow: 0 0 5px #000;
+  text-shadow: none;
 }
 
 main section.combat div.status-fight div.left ul li,
 main section.combat div.status-fight div.right ul li {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin-bottom: 10px;
+  font-size: 14px;
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.02);
+  padding: 6px 12px;
+  border-radius: 6px;
+  border-left: 3px solid rgba(255, 255, 255, 0.1);
+}
+
+main section.combat div.status-fight div.left ul li {
+  border-left-color: var(--danger);
 }
 
 main section.combat div.status-fight div.right ul li {
-  flex-direction: row-reverse;
+  border-left-color: var(--success);
+  flex-direction: row; /* Keep standard chronological layout */
 }
 
 main section.combat div.status-fight div.left ul li span:first-child,
 main section.combat div.status-fight div.right ul li span:first-child {
   text-transform: uppercase;
-  font-weight: 700;
+  font-weight: 800;
+  font-size: 12px;
+  color: var(--white);
 }
-main section.combat div.status-fight div.left ul li span:last-child,
-main section.combat div.status-fight div.right ul li span:last-child {
-  letter-spacing: 1.8px;
-}
+
 main section.combat div.status-fight div.left ul li span:last-child {
-  letter-spacing: 1.8px;
-  color: rgb(69, 0, 0);
+  color: #ff7675;
+  font-weight: 600;
+  letter-spacing: 0.5px;
 }
 
 main section.combat div.status-fight div.right ul li span:last-child {
-  letter-spacing: 1.8px;
-  color: rgb(0, 69, 0);
+  color: #55efc4;
+  font-weight: 600;
+  letter-spacing: 0.5px;
 }
 
+/**
+ * =============================================================
+ * PREMIUM VICTORY & DEFEAT OVERLAYS (FROSTED DARK THEME)
+ * =============================================================
+ */
 main section.combat div.win,
 main section.combat div.loose {
   position: fixed;
-  height: 100vh;
   top: 0;
-  bottom: 0;
   left: 0;
+  bottom: 0;
   right: 0;
-  background-color: #000;
-  overflow: hidden;
-  opacity: 0.9;
+  background: rgba(10, 12, 18, 0.96);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
   display: flex;
-  align-items: center;
-  justify-content: space-evenly;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  padding: 60px;
+  z-index: 1000;
+  display: none; /* Controlled via JS */
+  animation: fadeIn 0.4s ease forwards;
 }
+
+/* Beautiful custom victory border */
+main section.combat div.win {
+  border: 6px solid var(--gold);
+}
+
+/* Beautiful custom defeat border */
+main section.combat div.loose {
+  border: 6px solid var(--danger);
+}
+
 main section.combat div.win h3,
 main section.combat div.loose h3 {
-  font-size: 150px;
-  color: yellow;
-  text-shadow: 0 0 5px black;
+  font-size: 55px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  text-align: center;
+  margin: 0;
 }
 
-main section.combat div.win {
-  display: none;
-  background-color: lightgreen;
+/* Golden glowing Victory title */
+main section.combat div.win h3 {
+  background: linear-gradient(135deg, var(--gold) 0%, #fff2a3 50%, #f39c12 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 30px rgba(236, 204, 104, 0.35);
+  animation: scaleGlow 1.5s ease-in-out infinite alternate;
 }
 
-main section.combat div.loose {
-  display: none;
-  background-color: crimson;
+/* Blood-red Defeat title */
+main section.combat div.loose h3 {
+  background: linear-gradient(135deg, var(--danger) 0%, #ff7675 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 30px rgba(255, 71, 87, 0.35);
 }
 
+/* Layout for game status paragraphs inside modals */
 main section.combat div.win p,
 main section.combat div.loose p {
-  font-size: 60px;
-  text-align: left;
-  color: black;
-  text-shadow: 0 0 5px black;
+  font-size: 22px;
+  line-height: 1.8;
+  color: var(--white);
+  text-align: center;
+  max-width: 750px;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 30px 40px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
+main section.combat div.win p strong,
+main section.combat div.loose p strong {
+  color: var(--gold);
+}
+
+main section.combat div.win p em,
+main section.combat div.loose p em {
+  color: var(--danger);
+  font-style: normal;
+}
+
+/* Modals actions menu */
 main section.combat div.win div.actions,
 main section.combat div.loose div.actions {
   display: flex;
-  width: 80%;
+  width: 550px;
   justify-content: space-between;
+  gap: 30px;
   align-items: center;
 }
 
 main section.combat div.win div.actions button,
 main section.combat div.loose div.actions button {
-  width: 30%;
-  padding: 8px 16px;
+  flex: 1;
+  width: auto;
+  padding: 18px 24px;
+  font-size: 16px;
+  font-weight: 800;
+  text-transform: uppercase;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Win actions styling */
+main section.combat div.win div.actions button:first-child {
+  background: linear-gradient(135deg, var(--gold) 0%, #d4ac0d 100%);
+  color: var(--secondary);
+}
+
+main section.combat div.win div.actions button:first-child:hover {
+  background: linear-gradient(135deg, #f5b041 0%, var(--gold) 100%);
+  box-shadow: 0 8px 25px rgba(236, 204, 104, 0.4);
+  transform: translateY(-3px) scale(1.03);
+}
+
+main section.combat div.win div.actions button:last-child {
+  background: linear-gradient(135deg, var(--success) 0%, var(--success-dark) 100%);
+  color: var(--white);
+}
+
+main section.combat div.win div.actions button:last-child:hover {
+  background: linear-gradient(135deg, #58e08f 0%, var(--success) 100%);
+  box-shadow: 0 8px 25px rgba(46, 213, 115, 0.4);
+  transform: translateY(-3px) scale(1.03);
+}
+
+/* Loose actions styling */
+main section.combat div.loose div.actions button:first-child {
+  background: linear-gradient(135deg, var(--info) 0%, var(--info-dark) 100%);
+  color: var(--white);
+}
+
+main section.combat div.loose div.actions button:first-child:hover {
+  background: linear-gradient(135deg, #3fa0ff 0%, var(--info) 100%);
+  box-shadow: 0 8px 25px rgba(30, 144, 255, 0.4);
+  transform: translateY(-3px) scale(1.03);
+}
+
+main section.combat div.loose div.actions button:last-child {
+  background: linear-gradient(135deg, var(--gold) 0%, #d4ac0d 100%);
+  color: var(--secondary);
+}
+
+main section.combat div.loose div.actions button:last-child:hover {
+  background: linear-gradient(135deg, #f5b041 0%, var(--gold) 100%);
+  box-shadow: 0 8px 25px rgba(236, 204, 104, 0.4);
+  transform: translateY(-3px) scale(1.03);
+}
+
+/**
+ * =============================================================
+ * KEYFRAMES ANIMATIONS
+ * =============================================================
+ */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleGlow {
+  from {
+    transform: scale(0.98);
+    text-shadow: 0 0 20px rgba(236, 204, 104, 0.2);
+  }
+  to {
+    transform: scale(1.02);
+    text-shadow: 0 0 35px rgba(236, 204, 104, 0.55);
+  }
 }
