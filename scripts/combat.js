@@ -122,7 +122,7 @@ mobLifeProgress.setAttribute("value", mob.life);
 mobForce.textContent = mob.strong;
 
 // Application de l'avatar du monstre en arrière-plan de sa carte
-mobCard.style.backgroundImage = `url(../../assets/images/mobs/${mob.avatar}.jpeg)`;
+mobCard.style.backgroundImage = `url(../../assets/images/mobs/${mob.avatar}.jpg)`;
 mobCard.style.backgroundSize = "cover";
 mobCard.style.backgroundPosition = "center";
 
