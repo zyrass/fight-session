@@ -1,227 +1,299 @@
 /**
  * =============================================================
- * COMBAT ARENA - ORIGINAL LAYOUT WITH PREMIUM FROSTED-GLASS STYLE
+ * COMBAT ARENA - IMMERSIVE AAA RPG DESIGN & GLASSMORPHIC HUD
  * =============================================================
  */
 
-/* Main combat grid restoring original proportions */
+/* Unified background flowing seamlessly across the entire viewport */
+main {
+  background: radial-gradient(circle at center, #1b1e2b 0%, #08090d 100%) !important;
+  min-height: calc(100vh - 108px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+/* Cozy centered game board preserving spacious proportions */
 main section.combat {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 250px 50px 1fr;
+  grid-template-rows: 320px 60px 1fr;
   grid-template-areas:
     "left right"
     "fight fight"
     "infoCbt infoCbt";
-  grid-row-gap: 25px;
-  grid-column-gap: 50px;
-  padding: 40px;
-  min-height: calc(100vh - 108px);
-  background-color: var(--bg-color-dark);
-  box-shadow: inset 0 0 150px var(--black-intense);
+  grid-row-gap: 30px;
+  grid-column-gap: 60px;
+  padding: 30px 20px;
+  max-width: 1120px;
+  width: 100%;
+  background: transparent;
+  box-shadow: none;
+  min-height: auto;
 }
 
 /**
  * =============================================================
- * COMBAT PLAYER (GAUCHE) - RETOUR AGENCEMENT ORIGINAL
+ * COMBAT PLAYER (LEFT HERO CARD)
  * =============================================================
  */
-main section.combat div.left {
+main section.combat > div.left {
   grid-area: left;
-  padding: 25px 0;
-}
-
-main section.combat div.left div.card {
-  width: 35%;
-  height: 100%;
-  margin-left: 100px;
-  border-radius: 8px;
-  background-size: cover;
-  border: 4px solid var(--white);
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+  padding: 0;
   position: relative;
-  transition: transform 0.3s ease;
+  display: flex;
+  align-items: center;
 }
 
-main section.combat div.left div.card:hover {
-  transform: translateY(-3px);
+main section.combat > div.left div.card {
+  width: 240px;
+  height: 320px;
+  margin-left: 40px;
+  border-radius: 12px;
+  background-size: cover;
+  background-position: center;
+  border: 4px solid var(--white);
+  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.1);
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-/* Restauration du pseudo tourné verticalement à gauche */
-main section.combat div.left div.card h3 {
+main section.combat > div.left div.card:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9), 0 0 15px rgba(255, 255, 255, 0.2);
+}
+
+/* Spaced nameplate preventing overlaps */
+main section.combat > div.left div.card h3 {
   position: absolute;
   transform: rotate(-90deg);
   transform-origin: center;
-  top: 100px;
-  left: -130px;
-  width: 250px;
-  font-size: 26px;
+  top: 135px;
+  left: -160px;
+  width: 320px;
+  font-size: 25px;
   font-weight: 900;
   text-align: right;
   color: var(--white);
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9), 0 0 5px rgba(255, 255, 255, 0.2);
-  letter-spacing: 1px;
+  text-shadow: 0 3px 10px rgba(0, 0, 0, 0.95), 0 0 20px rgba(255, 255, 255, 0.15);
+  letter-spacing: 2px;
+  text-transform: uppercase;
 }
 
-/* Boîte de statistiques décalée sur la droite de la carte */
-main section.combat div.left div.card div.stats {
+/* Glassmorphic Stats HUD */
+main section.combat > div.left div.card div.stats {
   position: absolute;
-  right: -250px;
+  left: 255px;
+  right: auto;
   height: 100%;
-  width: 100%;
-  background: rgba(255, 255, 255, 0.04);
+  width: 240px;
+  background: rgba(20, 24, 35, 0.6);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-  padding: 15px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  gap: 12px;
+  gap: 15px;
+  z-index: 2;
 }
 
 /**
  * =============================================================
- * COMBAT ENNEMI (DROITE) - RETOUR AGENCEMENT ORIGINAL
+ * COMBAT ENNEMI (RIGHT MONSTER CARD)
  * =============================================================
  */
-main section.combat div.right {
+main section.combat > div.right {
   grid-area: right;
-  padding: 25px 0;
-}
-
-main section.combat div.right div.card {
-  width: 35%;
-  height: 100%;
-  margin: 0 100px 0 auto;
-  border-radius: 8px;
-  background-size: cover;
-  border: 4px solid var(--white);
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+  padding: 0;
   position: relative;
-  transition: transform 0.3s ease;
+  display: flex;
+  align-items: center;
 }
 
-main section.combat div.right div.card:hover {
-  transform: translateY(-3px);
+main section.combat > div.right div.card {
+  width: 240px;
+  height: 320px;
+  margin: 0 40px 0 auto;
+  border-radius: 12px;
+  background-size: cover;
+  background-position: center;
+  border: 4px solid var(--white);
+  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.1);
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-/* Restauration du nom du Mob tourné verticalement à droite */
-main section.combat div.right div.card h3 {
+main section.combat > div.right div.card:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9), 0 0 15px rgba(255, 255, 255, 0.2);
+}
+
+/* Spaced nameplate preventing overlaps */
+main section.combat > div.right div.card h3 {
   position: absolute;
   transform: rotate(90deg);
   transform-origin: center;
-  top: 100px;
-  right: -130px;
-  width: 250px;
-  font-size: 26px;
+  top: 135px;
+  right: -160px;
+  width: 320px;
+  font-size: 25px;
   font-weight: 900;
   text-align: left;
   color: var(--white);
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9), 0 0 5px rgba(255, 255, 255, 0.2);
-  letter-spacing: 1px;
+  text-shadow: 0 3px 10px rgba(0, 0, 0, 0.95), 0 0 20px rgba(255, 255, 255, 0.15);
+  letter-spacing: 2px;
+  text-transform: uppercase;
 }
 
-/* Boîte de statistiques décalée sur la gauche de la carte */
-main section.combat div.right div.card div.stats {
+/* Glassmorphic Stats HUD */
+main section.combat > div.right div.card div.stats {
   position: absolute;
-  right: 250px;
+  left: -255px;
+  right: auto;
   height: 100%;
-  width: 100%;
-  background: rgba(255, 255, 255, 0.04);
+  width: 240px;
+  background: rgba(20, 24, 35, 0.6);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-  padding: 15px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  gap: 12px;
+  gap: 15px;
+  z-index: 2;
 }
 
 /**
  * =============================================================
- * CONTENU DES FICHES STATS (FROSTED GLASS ALIGNMENT)
+ * CONTENU DES FICHES STATS (PREMIUM HUDS & BADGES)
  * =============================================================
  */
-main section.combat div.left div.card div.stats div.lifebar,
-main section.combat div.left div.card div.stats div.force,
-main section.combat div.right div.card div.stats div.lifebar,
-main section.combat div.right div.card div.stats div.force {
+
+/* HP Badge Player */
+main section.combat > div.left div.card div.stats div.lifebar {
+  background: rgba(255, 71, 87, 0.08);
+  border: 1px solid rgba(255, 71, 87, 0.25);
+  border-radius: 8px;
+  padding: 10px 14px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 25px;
-  margin-bottom: 0;
   gap: 10px;
+  box-shadow: 0 4px 15px rgba(255, 71, 87, 0.15);
 }
 
-main section.combat div.left div.card div.stats div.lifebar span,
-main section.combat div.right div.card div.stats div.lifebar span {
+main section.combat > div.left div.card div.stats div.lifebar span {
   color: var(--danger);
   font-size: 24px;
+  filter: drop-shadow(0 0 5px rgba(255, 71, 87, 0.5));
 }
 
-main section.combat div.left div.card div.stats div.lifebar div {
+main section.combat > div.left div.card div.stats div.lifebar div {
   color: var(--white);
-  font-size: 14px;
+  font-size: 13.5px;
   font-weight: 800;
   letter-spacing: 0.5px;
 }
 
-main section.combat div.left div.card div.stats div.force span:first-child,
-main section.combat div.right div.card div.stats div.force span:last-child {
-  font-size: 22px;
+/* HP Badge Enemy (Progress Bar + Real numerical values) */
+main section.combat > div.right div.card div.stats div.lifebar {
+  background: rgba(46, 213, 115, 0.08);
+  border: 1px solid rgba(46, 213, 115, 0.25);
+  border-radius: 8px;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
+  box-shadow: 0 4px 15px rgba(46, 213, 115, 0.15);
 }
 
-main section.combat div.left div.card div.stats div.force span:last-child,
-main section.combat div.right div.card div.stats div.force span:first-child {
-  color: var(--gold);
-  font-size: 16px;
+.mob-hp-text {
+  color: var(--white);
+  font-size: 13px;
   font-weight: 800;
+  letter-spacing: 0.5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-/* Ennemi Progress Bar */
-main section.combat div.right div.card div.stats div.lifebar progress {
+.mob-hp-text span {
+  color: var(--success) !important;
+  font-size: 13px !important;
+  font-weight: 800 !important;
+}
+
+main section.combat > div.right div.card div.stats div.lifebar progress {
   width: 100%;
-  height: 10px;
+  height: 8px;
   border-radius: 6px;
   overflow: hidden;
   border: none;
   background-color: rgba(255, 255, 255, 0.1);
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.4);
-  margin: 15px 15px 10px 0;
 }
 
-main section.combat div.right div.card div.stats div.lifebar progress::-webkit-progress-bar {
+main section.combat > div.right div.card div.stats div.lifebar progress::-webkit-progress-bar {
   background-color: rgba(255, 255, 255, 0.1);
 }
 
-main section.combat div.right div.card div.stats div.lifebar progress::-webkit-progress-value {
+main section.combat > div.right div.card div.stats div.lifebar progress::-webkit-progress-value {
   background: linear-gradient(90deg, #2ed573 0%, #7bed9f 100%);
 }
 
-/* Grand chiffre transparent en arrière-plan pour la série de victoires */
-main section.combat div.left div.card div.stats div.series {
-  position: absolute;
-  bottom: 5px;
-  left: 0;
-  right: 0;
-  font-size: 110px;
-  text-align: center;
-  opacity: 0.12; /* Intégration subtile et élégante */
-  color: var(--white);
-  text-shadow: 0 0 2px var(--black-intense);
-  pointer-events: none;
-  z-index: 0;
+/* Force Badges */
+main section.combat > div.left div.card div.stats div.force,
+main section.combat > div.right div.card div.stats div.force {
+  background: rgba(236, 204, 104, 0.08);
+  border: 1px solid rgba(236, 204, 104, 0.25);
+  border-radius: 8px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 4px 15px rgba(236, 204, 104, 0.15);
 }
 
-main section.combat div.left div.card div.stats div.series span {
-  font-size: 110px;
+main section.combat > div.left div.card div.stats div.force span:first-child,
+main section.combat > div.right div.card div.stats div.force span:last-child {
+  font-size: 22px;
+  filter: drop-shadow(0 0 5px rgba(236, 204, 104, 0.5));
+}
+
+main section.combat > div.left div.card div.stats div.force span:last-child,
+main section.combat > div.right div.card div.stats div.force span:first-child {
+  color: var(--gold);
+  font-size: 16px;
+  font-weight: 800;
+}
+
+/* Streak Background Number */
+main section.combat > div.left div.card div.stats div.series {
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  right: 0;
+  font-size: 130px;
+  text-align: center;
+  opacity: 0.07;
+  color: var(--white);
+  pointer-events: none;
+  z-index: 0;
+  font-weight: 900;
+  line-height: 1;
+}
+
+main section.combat > div.left div.card div.stats div.series span {
+  font-size: 130px;
   font-weight: 900;
   color: var(--white) !important;
   text-shadow: none !important;

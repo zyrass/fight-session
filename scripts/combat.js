@@ -129,6 +129,8 @@ const playerCard = document.querySelector("#combat .left .card");
 // --- CÔTÉ ENNEMI (DROITE) ---
 const mobTitle = document.querySelector("#combat .right .card h3");
 const mobLifeProgress = document.querySelector("#combat .right .card .stats .lifebar progress");
+const mobLifeBarVal = document.querySelector("#combat .right .card .stats .lifebar .mob-hp-text span:first-of-type");
+const mobLifeBarMax = document.querySelector("#combat .right .card .stats .lifebar .mob-hp-text span:last-of-type");
 const mobForce = document.querySelector("#combat .right .card .stats .force span:first-of-type");
 const mobCard = document.querySelector("#combat .right .card");
 
@@ -161,6 +163,8 @@ playerCard.style.backgroundPosition = "center";
 mobTitle.textContent = `${mob.name.replace("_", " ")} (Lvl ${mob.level})`;
 mobLifeProgress.setAttribute("max", mob.lifeMax);
 mobLifeProgress.setAttribute("value", mob.life);
+mobLifeBarVal.textContent = mob.life;
+mobLifeBarMax.textContent = mob.lifeMax;
 mobForce.textContent = mob.strong;
 
 // Application de l'avatar du monstre en arrière-plan de sa carte
@@ -310,6 +314,7 @@ btnFight.addEventListener("click", () => {
   
   // Met à jour la barre de vie du monstre
   mobLifeProgress.setAttribute("value", mob.life);
+  mobLifeBarVal.textContent = mob.life;
   
   // Log de l'attaque du joueur
   historyPlayer.push({

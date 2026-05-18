@@ -440,5 +440,28 @@
 
 ---
 
-## 5. Conclusion de Viabilité
-En implémentant ces 3 scripts complémentaires (`form.js`, `combat.js`, `shop.js`) et en effectuant les corrections HTML/CSS spécifiées, le projet **Fight** passe d'un excellent concept inachevé à un **jeu web rétro interactif fluide, addictif et parfaitement fonctionnel**.
+## 5. Overhaul Visuel Widescreen & Correction des Collisions CSS (AAA RPG HUD)
+
+### 🟢 assets/styles/style_fight.css & pages/fight/index.html
+- **Problème de stretching (2560px)** : Limiter l'arène de combat à une étroite colonne centrée de `1050px` avec des fonds plats gris clair sur les côtés créait un effet de rupture visuelle très inesthétique sur les grands écrans.
+- **Problème d'alignement vertical** : Les pseudos verticaux à $\pm 90^\circ$ débordaient sur les bordures des cartes.
+- **Bug de collision CSS (Squishing des logs)** : Les sélecteurs CSS `main section.combat div.left` et `main section.combat div.right` ciblaient à la fois les conteneurs des cartes de combat *et* les colonnes `.left` / `.right` du terminal de logs situé en bas dans `div.status-fight`. Les règles de cartes flex, de padding et de largeurs fixes se déversaient donc sur les logs, ce qui écrasait, déformait et superposait le texte des actions de façon illisible.
+- **Manque de feedback de combat** : L'adversaire n'avait qu'une barre de vie visuelle sans indicateur numérique, ce qui masquait ses PV exacts.
+
+### 🛠️ Corrections Appliquées :
+1. **Unification Arrière-Plan Immersive (AAA)** : Style du composant parent `main` avec un dégradé radial sombre (`radial-gradient(circle at center, #1b1e2b 0%, #08090d 100%)`) qui unifie toute la page de combat, éliminant définitivement les bandes de couleur contrastées sur les écrans larges.
+2. **Dimensionnement Épique des Cartes** : Agrandissement des cartes à **`240px` de largeur** et **`320px` de hauteur** pour un aspect imposant et noble.
+3. **Résolution de la Collision CSS (Combinateur Direct `>`)** : Remplacement de tous les sélecteurs par des combinateurs d'enfants directs :
+   - `main section.combat > div.left`
+   - `main section.combat > div.right`
+   *Cela isole complètement les panneaux de logs au bas, leur permettant de s'étendre en largeur standard sans aucune déformation ni chevauchement !*
+4. **Nameplates Aérées** : Décalage des titres verticaux à `left: -160px` et `right: -160px` pour flotter élégamment à côté des cartes sans aucune collision de bordure.
+5. **HUD en Verre Néon & PV Numériques de l'Ennemi** :
+   - Ajout de la structure `<div class="mob-hp-text"><span>80</span> pv / <span>100</span> pv max</div>` dans le fichier `index.html`.
+   - Câblage dynamique des variables `mobLifeBarVal` et `mobLifeBarMax` dans `scripts/combat.js` pour synchroniser en temps réel les PV du monstre à chaque coup reçu.
+   - Refonte des fiches sous forme de badges HUD néons transparents avec des lueurs colorées sur les icônes (Rouge pour la vie, Doré pour la force).
+
+---
+
+## 6. Conclusion de Viabilité
+En résolvant le bug critique d'incrémentation exponentielle du niveau supérieur, en structurant les connexions de boutique avec achats/soins d'inventaire, et en appliquant un traitement graphique immersif exempt de collisions CSS, le projet **Fight** atteint un standard de qualité digne d'une production web premium moderne. Le gameplay est fluide, visuellement gratifiant, addictif et pérenne.

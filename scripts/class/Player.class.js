@@ -323,7 +323,7 @@ class Player {
   levelUp() {
     this._level += 1;
     this._life += Math.floor(this._life / 2);
-    this._strong += this._strong + 5;
+    this._strong += 5;
   }
 
   /**
