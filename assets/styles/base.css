@@ -30,6 +30,9 @@
   --black-intense: #010003;
   --bg-color-light: var(--primary);
   --bg-color-dark: var(--secondary);
+
+  --info-strong: #1e90ff; /* Bleu info brillant */
+  --danger-em: #ff4757;   /* Rouge danger vif */
 }
 
 /**

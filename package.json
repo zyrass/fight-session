@@ -1,0 +1,23 @@
+{
+  "name": "fight-session",
+  "version": "1.0.0",
+  "description": "Mini RPG rétro punitif en Vanilla JS",
+  "main": "program.js",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "keywords": [
+    "rpg",
+    "vanilla-js",
+    "retro",
+    "game"
+  ],
+  "author": "Alain Guillon",
+  "license": "ISC",
+  "devDependencies": {
+    "vite": "^5.2.11"
+  }
+}

@@ -63,7 +63,8 @@
       const h2Looser = document.querySelector("#looser h2");
 
       btnPlayer.addEventListener("click", (e) => {
-        location.href("/pages/form/createHeroe.html");
+        e.preventDefault();
+        location.href = "./pages/form/createHeroe.html";
       });
       btnShowLooser.addEventListener("click", (e) => {
         e.preventDefault();
