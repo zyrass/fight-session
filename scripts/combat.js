@@ -58,19 +58,61 @@ if (player.level <= 2) {
   mobPrototype = list[Math.floor(Math.random() * list.length)];
 }
 
-// Clonage de l'instance pour isoler le combat
+// Calcul dynamique du niveau du monstre indexé sur celui du joueur
+let mobLevel = 1;
+let levelModifier = 0;
+
+if (mobPrototype.type === "normal") {
+  // Niveau du joueur +/- 1 (min 1)
+  levelModifier = Math.floor(Math.random() * 3) - 1; // -1, 0, ou 1
+  mobLevel = Math.max(1, player.level + levelModifier);
+} else if (mobPrototype.type === "elite") {
+  // Niveau du joueur + 1 à 3
+  levelModifier = Math.floor(Math.random() * 3) + 1; // 1, 2, ou 3
+  mobLevel = player.level + levelModifier;
+} else {
+  // Boss: Niveau du joueur + 3 à 5
+  levelModifier = Math.floor(Math.random() * 3) + 3; // 3, 4, ou 5
+  mobLevel = player.level + levelModifier;
+}
+
+// Recalcul des stats dynamiques de combat pour le monstre cloné
 const mob = {
   name: mobPrototype.name,
   avatar: mobPrototype.avatar,
   type: mobPrototype.type,
-  level: mobPrototype.level,
-  life: mobPrototype.life,
-  lifeMax: mobPrototype.life,
-  strong: mobPrototype.strong,
-  gold: mobPrototype.gold,
-  experience: mobPrototype.experience,
-  attack: () => mobPrototype.attack()
+  level: mobLevel,
+  life: 0,
+  lifeMax: 0,
+  strong: 0,
+  gold: 0,
+  experience: 0,
+  attack: function() {
+    const minDmg = Math.floor(this.strong / 2);
+    const maxDmg = this.strong;
+    return Math.floor(Math.random() * (maxDmg - minDmg + 1)) + minDmg;
+  }
 };
+
+// Formule de calcul des statistiques équilibrées indexées sur le niveau réel du monstre
+if (mob.type === "normal") {
+  mob.lifeMax = Math.floor(mob.level * 2 + 25);
+  mob.strong = Math.floor(mob.level / 2 + 8); // Force réduite au départ pour être jouable
+  mob.gold = Math.floor(mob.level * 6 + (Math.floor(Math.random() * 5) + 3)); // ~9-13 or au lvl 1
+  mob.experience = Math.floor(mob.level * 15 + 10);
+} else if (mob.type === "elite") {
+  mob.lifeMax = Math.floor(mob.level * 3 + 45);
+  mob.strong = Math.floor(mob.level / 2 + 18);
+  mob.gold = Math.floor(mob.level * 12 + (Math.floor(Math.random() * 10) + 5)); // ~50-65 or
+  mob.experience = Math.floor(mob.level * 25 + 20);
+} else {
+  mob.lifeMax = Math.floor(mob.level * 5 + 75);
+  mob.strong = Math.floor(mob.level / 2 + 30);
+  mob.gold = Math.floor(mob.level * 25 + (Math.floor(Math.random() * 20) + 10)); // ~235-265 or
+  mob.experience = Math.floor(mob.level * 50 + 50);
+}
+
+mob.life = mob.lifeMax;
 
 // =========================================================================
 // 3. RACCORDEMENT ET SÉLECTION DES ÉLÉMENTS DU DOM
