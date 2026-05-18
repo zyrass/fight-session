@@ -35,28 +35,35 @@ player.experience = parseInt(localStorage.getItem("experience")) || 0;
 player.series = parseInt(localStorage.getItem("series")) || 0;
 player.level = parseInt(localStorage.getItem("level")) || 1;
 
-const lifeMax = parseInt(localStorage.getItem("lifeMax")) || player.life;
+player.lifeMax = parseInt(localStorage.getItem("lifeMax")) || player.lifeMax;
+const lifeMax = player.lifeMax;
 
 // =========================================================================
 // 2. GÉNÉRATION DE L'IA (MONSTRE ADAPTÉ AU NIVEAU)
 // =========================================================================
 
 let mobPrototype;
+let mobTypeSelected = "normal";
+const randType = Math.random();
 
-// Système d'équilibrage : le monstre est choisi selon le niveau du joueur
+// Système d'équilibrage par probabilité dynamique de rareté selon le niveau
 if (player.level <= 2) {
-  // Bas niveau -> Mobs Normaux (ex: Abeille_White)
-  const list = ListMob.normal;
-  mobPrototype = list[Math.floor(Math.random() * list.length)];
-} else if (player.level <= 5) {
-  // Niveau intermédiaire -> Mobs Élite (ex: Lapin_Elite)
-  const list = ListMob.elite;
-  mobPrototype = list[Math.floor(Math.random() * list.length)];
+  mobTypeSelected = "normal";
+} else if (player.level <= 4) {
+  mobTypeSelected = randType < 0.3 ? "elite" : "normal";
+} else if (player.level <= 7) {
+  if (randType < 0.1) mobTypeSelected = "boss";
+  else if (randType < 0.6) mobTypeSelected = "elite";
+  else mobTypeSelected = "normal";
 } else {
-  // Haut niveau -> Mobs Boss (ex: Cerf_Boss)
-  const list = ListMob.boss;
-  mobPrototype = list[Math.floor(Math.random() * list.length)];
+  if (randType < 0.3) mobTypeSelected = "boss";
+  else if (randType < 0.8) mobTypeSelected = "elite";
+  else mobTypeSelected = "normal";
 }
+
+// Sélection du prototype aléatoire dans la liste correspondante
+const list = ListMob[mobTypeSelected];
+mobPrototype = list[Math.floor(Math.random() * list.length)];
 
 // Calcul dynamique du niveau du monstre indexé sur celui du joueur
 let mobLevel = 1;
@@ -94,22 +101,22 @@ const mob = {
   }
 };
 
-// Formule de calcul des statistiques équilibrées indexées sur le niveau réel du monstre
+// Formules de statistiques équilibrées de façon linéaire et stimulante
 if (mob.type === "normal") {
-  mob.lifeMax = Math.floor(mob.level * 2 + 25);
-  mob.strong = Math.floor(mob.level / 2 + 8); // Force réduite au départ pour être jouable
-  mob.gold = Math.floor(mob.level * 6 + (Math.floor(Math.random() * 5) + 3)); // ~9-13 or au lvl 1
-  mob.experience = Math.floor(mob.level * 15 + 10);
+  mob.lifeMax = mob.level * 15 + 30;
+  mob.strong = mob.level * 3 + 5;
+  mob.gold = Math.floor(mob.level * 4 + (Math.floor(Math.random() * 5) + 3));
+  mob.experience = mob.level * 10 + 5;
 } else if (mob.type === "elite") {
-  mob.lifeMax = Math.floor(mob.level * 3 + 45);
-  mob.strong = Math.floor(mob.level / 2 + 18);
-  mob.gold = Math.floor(mob.level * 12 + (Math.floor(Math.random() * 10) + 5)); // ~50-65 or
-  mob.experience = Math.floor(mob.level * 25 + 20);
+  mob.lifeMax = mob.level * 20 + 50;
+  mob.strong = mob.level * 4 + 10;
+  mob.gold = Math.floor(mob.level * 8 + (Math.floor(Math.random() * 10) + 5));
+  mob.experience = mob.level * 15 + 10;
 } else {
-  mob.lifeMax = Math.floor(mob.level * 5 + 75);
-  mob.strong = Math.floor(mob.level / 2 + 30);
-  mob.gold = Math.floor(mob.level * 25 + (Math.floor(Math.random() * 20) + 10)); // ~235-265 or
-  mob.experience = Math.floor(mob.level * 50 + 50);
+  mob.lifeMax = mob.level * 28 + 90;
+  mob.strong = Math.floor(mob.level * 4.5 + 20);
+  mob.gold = Math.floor(mob.level * 16 + (Math.floor(Math.random() * 20) + 10));
+  mob.experience = mob.level * 25 + 20;
 }
 
 mob.life = mob.lifeMax;
@@ -136,6 +143,7 @@ const mobCard = document.querySelector("#combat .right .card");
 
 // --- INTERACTION ET DIALOGUES DE COMBAT ---
 const btnFight = document.querySelector("#combat > button");
+const btnReset = document.querySelector("#btn-reset-game");
 const logPlayer = document.querySelector("#combat .status-fight .right ul"); // Dégâts infligés
 const logMob = document.querySelector("#combat .status-fight .left ul");     // Dégâts subis
 
@@ -171,6 +179,27 @@ mobForce.textContent = mob.strong;
 mobCard.style.backgroundImage = `url(../../assets/images/mobs/${mob.avatar}.jpg)`;
 mobCard.style.backgroundSize = "cover";
 mobCard.style.backgroundPosition = "center";
+
+// --- MISE À JOUR DU HUD PERSISTANT DE LA NAVBAR ---
+function updateHeaderHud() {
+  const hudLvl = document.querySelector("#hud-lvl-val");
+  const hudXpBar = document.querySelector("#hud-xp-bar");
+  const hudXpVal = document.querySelector("#hud-xp-val");
+  const hudXpMax = document.querySelector("#hud-xp-max");
+  const hudGold = document.querySelector("#hud-gold-val");
+  
+  if (hudLvl) hudLvl.textContent = player.level;
+  if (hudXpBar) {
+    hudXpBar.max = player.level * 50;
+    hudXpBar.value = player.experience;
+  }
+  if (hudXpVal) hudXpVal.textContent = player.experience;
+  if (hudXpMax) hudXpMax.textContent = player.level * 50;
+  if (hudGold) hudGold.textContent = player.gold;
+}
+
+// Initialisation globale
+updateHeaderHud();
 
 // Historique des tours de jeu
 let turnCount = 1;
@@ -209,11 +238,11 @@ function handleVictory() {
   // Calcul du seuil d'expérience nécessaire pour passer au niveau supérieur (50 XP par niveau)
   const experienceRequired = player.level * 50;
   let leveledUp = false;
-  let oldLifeMax = lifeMax;
+  let oldLifeMax = player.lifeMax;
   let oldStrong = player.strong;
 
   if (player.experience >= experienceRequired) {
-    player.levelUp(); // Déclenche les gains de vie (+50%) et de force (+force +5)
+    player.levelUp(); // Déclenche les gains de vie et de force linéaires
     leveledUp = true;
     player.experience = player.experience - experienceRequired; // Garde le surplus d'XP
   }
@@ -225,13 +254,16 @@ function handleVictory() {
   localStorage.setItem("level", player.level);
 
   if (leveledUp) {
-    localStorage.setItem("life", player.life);     // Soigné au max après un levelUp
-    localStorage.setItem("lifeMax", player.life);  // Nouvelle vie max
-    localStorage.setItem("strong", player.strong);  // Nouvelle force
+    localStorage.setItem("life", player.life);        // Soigné au max après un levelUp
+    localStorage.setItem("lifeMax", player.lifeMax);  // Nouvelle vie max linéaire
+    localStorage.setItem("strong", player.strong);    // Nouvelle force
   } else {
     // Si pas de montée de niveau, sa vie courante reste blessée suite aux combats
     localStorage.setItem("life", player.life);
   }
+
+  // Actualiser le HUD dynamique du header immédiatement
+  updateHeaderHud();
 
   // Configuration de l'overlay de victoire
   winOverlay.querySelector("h3").textContent = "VICTOIRE GLORIEUSE ! 🎉";
@@ -352,3 +384,19 @@ btnFight.addEventListener("click", () => {
   // Passage au tour suivant
   turnCount++;
 });
+
+// =========================================================================
+// 7. BOUTON DE RÉINITIALISATION DE LA PARTIE
+// =========================================================================
+if (btnReset) {
+  btnReset.addEventListener("click", () => {
+    const confirmReset = confirm(
+      "⚠️ Êtes-vous sûr de vouloir réinitialiser tout votre progrès ?\n\nCela effacera définitivement votre héros, votre or, votre équipement et votre série de victoires de façon IRREVOCABLE."
+    );
+    if (confirmReset) {
+      localStorage.clear();
+      // Redirection immédiate vers la page de création/accueil
+      location.href = "../../index.html";
+    }
+  });
+}

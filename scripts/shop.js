@@ -1,9 +1,8 @@
 /**
  * @file shop.js
- * @description Contrôleur de la boutique de potions (pages/shop/shopping.html).
- * Permet au joueur de visualiser sa bourse et ses PV, d'acheter des potions à prix variables,
- * de consulter son inventaire, d'utiliser (boire) des potions pour regagner de la vie,
- * et de retourner au combat.
+ * @description Contrôleur de la boutique de potions.
+ * Synchronise le solde et les PV du joueur avec le HUD persistant de la navbar,
+ * gère l'achat de potions aux nouveaux tarifs ajustés, et gère l'utilisation en direct.
  */
 
 // 1. Récupération et sécurisation de l'état du joueur
@@ -18,43 +17,48 @@ let lifeMax = parseInt(localStorage.getItem("lifeMax")) || 100;
 let inventory = JSON.parse(localStorage.getItem("inventory")) || {};
 
 // Sélection des éléments clés du DOM
-const shopTitle = document.querySelector("main h1");
-const inventorySection = document.querySelector("main .inventory");
+const shopLayout = document.querySelector(".shop-layout");
+const inventoryTitle = document.querySelector(".inventory h3");
 const inventoryList = document.querySelector("main .inventory ul");
 const pnjQuote = document.querySelector("main .pnj blockquote p");
 
 // =========================================================================
-// 2. STYLISATION & AFFICHAGE DES INFOS DU JOUEUR (OR ET VIE)
+// 2. SYNCHRONISATION DU HUD GLOBAL PERSISTANT (NAVBAR)
 // =========================================================================
-
-// Création d'une bannière de statistiques pour le joueur au-dessus des potions
-const playerBanner = document.createElement("div");
-playerBanner.className = "player-stats-banner";
-playerBanner.style.background = "var(--bg-color-dark)";
-playerBanner.style.color = "var(--white)";
-playerBanner.style.padding = "12px 24px";
-playerBanner.style.borderRadius = "8px";
-playerBanner.style.margin = "20px 0";
-playerBanner.style.display = "flex";
-playerBanner.style.justifyContent = "space-between";
-playerBanner.style.alignItems = "center";
-playerBanner.style.boxShadow = "0 4px 6px rgba(0, 0, 0, 0.3)";
-playerBanner.style.fontSize = "18px";
-playerBanner.style.fontWeight = "bold";
-
-function updatePlayerBanner() {
-  playerBanner.innerHTML = `
-    <span>💰 Bourse : <strong style="color: var(--gold);">${gold} 💵</strong></span>
-    <span>❤️ Santé : <strong style="color: var(--success);">${life} / ${lifeMax} PV</strong></span>
-  `;
+function updateHeaderHud() {
+  const hudLvl = document.querySelector("#hud-lvl-val");
+  const hudXpBar = document.querySelector("#hud-xp-bar");
+  const hudXpVal = document.querySelector("#hud-xp-val");
+  const hudXpMax = document.querySelector("#hud-xp-max");
+  const hudGold = document.querySelector("#hud-gold-val");
+  
+  const level = parseInt(localStorage.getItem("level")) || 1;
+  const experience = parseInt(localStorage.getItem("experience")) || 0;
+  
+  if (hudLvl) hudLvl.textContent = level;
+  if (hudXpBar) {
+    hudXpBar.max = level * 50;
+    hudXpBar.value = experience;
+  }
+  if (hudXpVal) hudXpVal.textContent = experience;
+  if (hudXpMax) hudXpMax.textContent = level * 50;
+  if (hudGold) hudGold.textContent = gold;
 }
-updatePlayerBanner();
-shopTitle.after(playerBanner);
+
+// Mise à jour de l'affichage de la santé dans l'inventaire
+function updateHpDisplay() {
+  if (inventoryTitle) {
+    inventoryTitle.innerHTML = `🎒 Ton Sac à Dos <span class="hp-badge">❤️ ${life} / ${lifeMax} PV</span>`;
+  }
+}
+
+// Initialisation globale
+updateHeaderHud();
+updateHpDisplay();
 
 // =========================================================================
 // 3. DIALOGUES DU MARCHAND (PNJ)
 // =========================================================================
-
 const pnjMessages = [
   "Achetez mes potions ! Elles ne sont presque pas périmées, c'est juré ! 🧪",
   "Pas de crédit ici, l'ami ! Pas de pièces d'or, pas de survie ! 💰",
@@ -70,11 +74,12 @@ pnjQuote.textContent = pnjMessages[Math.floor(Math.random() * pnjMessages.length
 // 4. CONFIGURATION DES POTIONS ET ACHATS
 // =========================================================================
 
+// Nouvelle grille tarifaire avantageuse demandée pour le début du jeu
 const potionsConfig = [
-  { id: "potion_25", name: "Potion de vie presque vide", healPercent: 25, price: 125 },
-  { id: "potion_50", name: "Potion de vie à moitié pleine", healPercent: 50, price: 240 },
-  { id: "potion_75", name: "Potion de vie presque pleine", healPercent: 75, price: 360 },
-  { id: "potion_100", name: "Potion de vie parfaite", healPercent: 100, price: 490 }
+  { id: "potion_25", name: "Potion de vie presque vide", healPercent: 25, price: 25 },
+  { id: "potion_50", name: "Potion de vie à moitié pleine", healPercent: 50, price: 50 },
+  { id: "potion_75", name: "Potion de vie presque pleine", healPercent: 75, price: 100 },
+  { id: "potion_100", name: "Potion de vie parfaite", healPercent: 100, price: 200 }
 ];
 
 // Sélection de toutes les cartes de potions dans le magasin
@@ -83,9 +88,6 @@ const buyButtons = document.querySelectorAll(".card_container-shop button");
 buyButtons.forEach((btn, index) => {
   const potion = potionsConfig[index];
   
-  // UX : Curseur pointer
-  btn.style.cursor = "pointer";
-
   btn.addEventListener("click", () => {
     // Vérification de la bourse du joueur
     if (gold >= potion.price) {
@@ -97,7 +99,7 @@ buyButtons.forEach((btn, index) => {
       localStorage.setItem("inventory", JSON.stringify(inventory));
 
       // Notification visuelle et mise à jour
-      updatePlayerBanner();
+      updateHeaderHud();
       renderInventory();
 
       pnjQuote.textContent = `Excellent choix ! Une ${potion.name} ajoutée à ton inventaire ! 🎒`;
@@ -125,26 +127,9 @@ function renderInventory() {
       const potion = potionsConfig.find(p => p.id === potionId);
       
       const li = document.createElement("li");
-      li.style.display = "flex";
-      li.style.justifyContent = "space-between";
-      li.style.alignItems = "center";
-      li.style.padding = "10px 16px";
-      li.style.borderBottom = "1px solid var(--primary)";
-      li.style.background = "rgba(255, 255, 255, 0.05)";
-      li.style.margin = "6px 0";
-      li.style.borderRadius = "4px";
-
       li.innerHTML = `
-        <span style="color: var(--white); font-weight: bold;">🧪 ${potion.name} (x${quantity})</span>
-        <button class="use-potion-btn" data-id="${potionId}" style="
-          background: var(--success);
-          color: var(--white);
-          border: none;
-          border-radius: 4px;
-          padding: 6px 12px;
-          font-weight: bold;
-          cursor: pointer;
-        ">Boire 🧪</button>
+        <span>🧪 ${potion.name} (x${quantity})</span>
+        <button class="use-potion-btn" data-id="${potionId}">Boire 🧪</button>
       `;
 
       inventoryList.appendChild(li);
@@ -153,8 +138,8 @@ function renderInventory() {
 
   if (isEmpty) {
     inventoryList.innerHTML = `
-      <li style="color: var(--muted); text-align: center; font-style: italic; padding: 10px;">
-        Votre inventaire est désespérément vide... Achetez des potions ci-dessus ! 🎒
+      <li class="empty-inventory">
+        Votre inventaire est vide... Achetez des potions à gauche ! 🎒
       </li>
     `;
   }
@@ -183,7 +168,8 @@ function renderInventory() {
       localStorage.setItem("inventory", JSON.stringify(inventory));
 
       // Actualisation IHM
-      updatePlayerBanner();
+      updateHpDisplay();
+      updateHeaderHud();
       renderInventory();
 
       pnjQuote.textContent = `Glou glou... Ah, ça fait du bien ! Tu as récupéré de précieux points de vie ! ❤️`;
@@ -197,24 +183,30 @@ renderInventory();
 // =========================================================================
 // 6. BOUTON DE RETOUR AU COMBAT (VERS L'ARÈNE)
 // =========================================================================
-
 const combatLink = document.createElement("button");
 combatLink.textContent = "⚔️ Retourner dans l'Arène ⚔️";
-combatLink.style.display = "block";
-combatLink.style.width = "fit-content";
-combatLink.style.margin = "30px auto";
-combatLink.style.padding = "12px 24px";
-combatLink.style.background = "var(--danger)";
-combatLink.style.color = "var(--white)";
-combatLink.style.border = "2px solid var(--black-intense)";
-combatLink.style.borderRadius = "4px";
-combatLink.style.fontSize = "16px";
-combatLink.style.fontWeight = "bold";
-combatLink.style.cursor = "pointer";
-combatLink.style.textShadow = "1px 1px 2px var(--black-intense)";
+combatLink.className = "btn-return-arena";
 
 combatLink.addEventListener("click", () => {
   location.href = "../fight/index.html";
 });
 
-inventorySection.after(combatLink);
+if (shopLayout) {
+  shopLayout.after(combatLink);
+}
+
+// =========================================================================
+// 7. BOUTON DE RÉINITIALISATION DE LA PARTIE
+// =========================================================================
+const btnReset = document.querySelector("#btn-reset-game");
+if (btnReset) {
+  btnReset.addEventListener("click", () => {
+    const confirmReset = confirm(
+      "⚠️ Êtes-vous sûr de vouloir réinitialiser tout votre progrès ?\n\nCela effacera définitivement votre héros, votre or, votre équipement et votre série de victoires de façon IRREVOCABLE."
+    );
+    if (confirmReset) {
+      localStorage.clear();
+      location.href = "../../index.html";
+    }
+  });
+}

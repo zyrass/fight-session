@@ -94,7 +94,16 @@ button {
  * HEADER + FOOTER
  * =============================================================
  */
-header,
+header {
+  background-color: var(--bg-color-dark);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  box-shadow: 0 0 8px var(--black-intense);
+  z-index: 1000;
+}
+
 footer {
   background-color: var(--bg-color-dark);
   display: flex;
@@ -102,6 +111,7 @@ footer {
   justify-content: space-around;
   box-shadow: 0 0 5px var(--black-intense);
 }
+
 header span,
 footer span {
   color: var(--white);
@@ -111,4 +121,139 @@ footer span:last-child {
   text-transform: uppercase;
   letter-spacing: 2.5px;
   color: var(--gold);
+}
+
+/* =============================================================
+ * NAVBAR PLAYER HUD
+ * =============================================================
+ */
+header .header-brand {
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  color: var(--gold);
+  display: flex;
+  align-items: center;
+}
+
+header .header-hud {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 30px;
+  padding: 6px 20px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+header .hud-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13.5px;
+  font-weight: 800;
+  color: var(--white);
+}
+
+header .hud-level {
+  background: rgba(232, 204, 104, 0.12);
+  color: var(--gold) !important;
+  border: 1px solid rgba(232, 204, 104, 0.3);
+  padding: 4px 12px;
+  border-radius: 12px;
+  letter-spacing: 0.5px;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+header .hud-level span {
+  color: var(--gold) !important;
+  font-weight: 900;
+}
+
+header .hud-xp {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+header .hud-xp-label {
+  color: var(--info) !important;
+  font-size: 11px;
+  letter-spacing: 1px;
+  font-weight: 900;
+}
+
+header .hud-xp progress {
+  width: 140px;
+  height: 8px;
+  border-radius: 4px;
+  border: none;
+  background: rgba(255, 255, 255, 0.1) !important;
+  overflow: hidden;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+header .hud-xp progress::-webkit-progress-bar {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+header .hud-xp progress::-webkit-progress-value {
+  background: linear-gradient(90deg, var(--info) 0%, #00d2ff 100%);
+}
+
+header .hud-xp-text {
+  font-size: 11px;
+  color: var(--muted) !important;
+  width: 80px;
+  text-align: left;
+}
+
+header .hud-gold {
+  color: var(--gold) !important;
+  text-shadow: 0 0 10px rgba(232, 204, 104, 0.3);
+}
+
+header .hud-gold span {
+  color: var(--gold) !important;
+  font-weight: 900;
+}
+
+header .header-actions {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* Premium Reset Button in Header */
+header button.btn-reset-game {
+  background: rgba(255, 71, 87, 0.12);
+  border: 1px solid rgba(255, 71, 87, 0.35);
+  border-radius: 20px;
+  color: #ff6b81;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  padding: 6px 14px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  box-shadow: 0 0 10px rgba(255, 71, 87, 0.1);
+}
+
+header button.btn-reset-game:hover {
+  background: var(--danger);
+  color: var(--white);
+  border-color: var(--danger);
+  box-shadow: 0 0 15px rgba(255, 71, 87, 0.45);
+  transform: translateY(-1px);
+}
+
+header button.btn-reset-game:active {
+  transform: translateY(1px);
 }

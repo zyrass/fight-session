@@ -13,8 +13,24 @@
   </head>
   <body>
     <header>
-      <span>Fight</span>
-      <span>L'Arène de Combat</span>
+      <div class="header-brand">
+        <span>Fight</span>
+      </div>
+      
+      <!-- Global Player HUD -->
+      <div class="header-hud">
+        <div class="hud-item hud-level">LVL <span id="hud-lvl-val">1</span></div>
+        <div class="hud-item hud-xp">
+          <span class="hud-xp-label">XP</span>
+          <progress id="hud-xp-bar" max="50" value="0"></progress>
+          <span class="hud-xp-text"><span id="hud-xp-val">0</span> / <span id="hud-xp-max">50</span> XP</span>
+        </div>
+        <div class="hud-item hud-gold">💰 <span id="hud-gold-val">0</span> 💵</div>
+      </div>
+      
+      <div class="header-actions">
+        <button id="btn-reset-game" class="btn-reset-game">Réinitialiser 🔄</button>
+      </div>
     </header>
     <main>
       <!-- COMBAT -->

@@ -1,149 +1,407 @@
 /**
  * =============================================================
- * SHOPPING
+ * SHOPPING PAGE PREMIUM STYLE SYSTEM
  * =============================================================
  */
 
-/**
- * =============================================================
- * MAIN
- * =============================================================
- */
+/* Main room styling */
 main {
   background-image: url(../images/lieu/shopping.jpeg);
   background-size: cover;
-  filter: contrast(120%) sepia(50%);
+  background-position: center;
+  filter: contrast(110%) sepia(20%);
   box-shadow: inset 0 0 150px var(--black-intense);
+  min-height: calc(100vh - 108px);
+  padding: 40px 50px;
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-x: hidden;
 }
 
-/**
- * =============================================================
- * MAIN H1
+/* Page Title styling */
+main h1 {
+  font-family: 'Outfit', 'Inter', sans-serif;
+  font-size: 42px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  color: var(--white);
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.4), 0 4px 10px rgba(0, 0, 0, 0.7);
+  margin-top: 0;
+  margin-bottom: 20px;
+  text-align: center;
+  width: 100%;
+}
+
+/* Dynamic Stats Banner injected by JS (Optional visual spacer, kept in line) */
+.player-stats-banner {
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  max-width: 1200px;
+  width: 100%;
+  margin-bottom: 30px !important;
+  box-sizing: border-box;
+}
+
+/* =============================================================
+ * GRID LAYOUT SYSTEM
  * =============================================================
  */
-main h1 {
-  position: absolute;
-  right: 50px;
-  top: 50px;
+.shop-layout {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 35px;
+  width: 100%;
+  max-width: 1200px;
+  margin-bottom: 20px;
+  z-index: 5;
+  box-sizing: border-box;
 }
 
-/**
- * =============================================================
- * MAIN SECTION.MENU
+/* =============================================================
+ * LEFT COLUMN: POTIONS CATALOG
  * =============================================================
  */
 main section.menu {
-  background-color: var(--warning);
-  opacity: 0.9;
-  height: fit-content;
-  width: 60%;
-  margin-top: 50px;
-  margin-left: 50px;
-  border: 4px solid var(--warning-dark);
-  box-shadow: inset 0 0 150px var(--black-intense), 0 0 5px var(--black-intense);
+  background: rgba(20, 24, 35, 0.75);
+  border: 1.5px solid rgba(232, 204, 104, 0.2);
+  border-radius: 16px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
   padding: 25px;
-  overflow: hidden;
-  border-radius: 4px;
-}
-main section.menu dl {
-  background-color: var(--muted);
-  margin-bottom: 5px;
-  padding: 5px;
-  transition: background-color 0.2s;
-}
-main section.menu dl:hover {
-  background-color: var(--muted-dark);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  box-sizing: border-box;
 }
 
-/**
- * =============================================================
- * MAIN SECTION.MENU CARD_CONTAINER-SHOP
- * =============================================================
- */
+/* Potion Card Item */
 main section.menu div.card_container-shop {
-  background-color: var(--muted);
-  margin-bottom: 15px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 16px;
   display: flex;
-  justify-content: flex-start;
   align-items: center;
-  transition: background-color 0.2s, color 0.2s;
-  padding: 10px;
-  border-radius: 4px;
-  border: 2px solid var(--warning-dark);
-  box-shadow: 0 0 2.5px var(--black-intense);
-}
-main section.menu div.card_container-shop:last-child {
-  margin-bottom: 0;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
 main section.menu div.card_container-shop:hover {
-  background-color: var(--info-dark);
+  background: rgba(232, 204, 104, 0.08);
+  border-color: rgba(232, 204, 104, 0.45);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(232, 204, 104, 0.2);
 }
 
-main section.menu div.card_container-shop small {
-  color: var(--black-intense);
-}
-main section.menu div.card_container-shop:hover small {
-  color: var(--gold);
-}
-
+/* Potion Image */
 main section.menu div.card_container-shop img {
-  filter: drop-shadow(0 0 2.5px var(--black-intense));
-  width: 75px;
-  background-color: var(--warning-dark);
-  padding: 10px;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
+  width: 65px;
+  height: 65px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 8px;
   margin-right: 20px;
-  border: 2px solid var(--black-intense);
+  transition: transform 0.3s ease;
 }
 
+main section.menu div.card_container-shop:hover img {
+  transform: scale(1.08) rotate(3deg);
+}
+
+/* Content Area */
 main section.menu div.card_container-content {
-  width: 100%;
+  flex: 1;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
+/* Potion Descriptions */
 main section.menu div.card_container-content .card_container-description {
-  width: 100%;
-  margin-right: 20px;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  gap: 6px;
+  margin-right: 20px;
 }
 
 main section.menu div.card_container-content .card_container-description h4 {
-  margin-bottom: 10px;
+  margin: 0;
+  font-family: 'Outfit', sans-serif;
+  font-size: 16px;
+  font-weight: 800;
   text-transform: uppercase;
-  color: var(--danger);
+  color: var(--gold);
+  letter-spacing: 0.5px;
 }
 
 main section.menu div.card_container-content .card_container-description p {
-  color: var(--black-intense);
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+main section.menu div.card_container-content .card_container-description small {
+  color: rgba(255, 255, 255, 0.45);
   font-style: italic;
-  letter-spacing: 1.8px;
-  font-size: 16px;
+  display: block;
+  margin-top: 4px;
 }
 
 main section.menu div.card_container-shop:hover .card_container-description p {
   color: var(--white);
 }
 
+/* Action Area (Price + Buy Button) */
 main section.menu div.card_container-content .card_container-action {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-evenly;
+  gap: 8px;
+  min-width: 80px;
 }
 
 main section.menu div.card_container-content .card_container-action div {
   font-size: 16px;
   font-weight: 900;
-  color: var(--warning-dark);
+  color: var(--gold);
+  text-shadow: 0 0 10px rgba(232, 204, 104, 0.3);
 }
 
-main section.pnj img {
+main section.menu div.card_container-content .card_container-action button {
+  background: linear-gradient(135deg, var(--gold) 0%, #d4af37 100%);
+  color: var(--secondary);
+  border: none;
+  border-radius: 20px;
+  padding: 6px 18px;
+  font-size: 12.5px;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(232, 204, 104, 0.3);
+  transition: all 0.2s ease;
+}
+
+main section.menu div.card_container-content .card_container-action button:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 15px rgba(232, 204, 104, 0.5);
+}
+
+/* =============================================================
+ * RIGHT COLUMN: BACKPACK (INVENTORY)
+ * =============================================================
+ */
+main section.inventory {
+  background: rgba(15, 20, 30, 0.85); /* Highly opaque dark background to overlay PNJ */
+  border: 1.5px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+  padding: 25px;
+  z-index: 2; /* Renders ON TOP of PNJ princess */
+  box-sizing: border-box;
+}
+
+/* Backpack Title with integrated HP Badge */
+main section.inventory h3 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'Outfit', sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--white);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 12px;
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+main section.inventory h3 .hp-badge {
+  background: rgba(255, 71, 87, 0.15);
+  border: 1px solid rgba(255, 71, 87, 0.35);
+  color: #ff6b81;
+  font-size: 13px;
+  font-weight: 800;
+  padding: 4px 12px;
+  border-radius: 12px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 2px 8px rgba(255, 71, 87, 0.2);
+}
+
+/* Potion Item List inside Bag */
+main section.inventory ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+main section.inventory ul li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 18px !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+  background: rgba(255, 255, 255, 0.03) !important;
+  margin: 0 !important;
+  border-radius: 8px !important;
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+  transition: all 0.2s ease;
+}
+
+main section.inventory ul li:hover {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+main section.inventory ul li span {
+  color: var(--white) !important;
+  font-size: 13.5px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+/* Opaque and extremely legible "BOIRE 🧪" button */
+main section.inventory ul li button.use-potion-btn {
+  background: linear-gradient(135deg, var(--success) 0%, #2ed573 100%) !important;
+  color: var(--secondary) !important;
+  border: none !important;
+  border-radius: 20px !important;
+  padding: 8px 18px !important;
+  font-size: 12px !important;
+  font-weight: 900 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 12px rgba(46, 213, 115, 0.3) !important;
+  cursor: pointer;
+  transition: all 0.2s ease !important;
+  z-index: 10 !important; /* Extremely high local z-index */
+}
+
+main section.inventory ul li button.use-potion-btn:hover {
+  transform: scale(1.06) !important;
+  box-shadow: 0 6px 16px rgba(46, 213, 115, 0.5) !important;
+}
+
+/* Empty bag styling */
+main section.inventory ul li.empty-inventory {
+  justify-content: center;
+  color: var(--muted);
+  text-align: center;
+  font-style: italic;
+  padding: 15px !important;
+  border: 1px dashed rgba(255, 255, 255, 0.1) !important;
+  background: transparent !important;
+}
+
+/* =============================================================
+ * PNJ MARCHAND (PRINCESS ANIME CHARACTER)
+ * =============================================================
+ */
+main section.pnj {
   position: absolute;
   right: 0;
   bottom: 0;
-  width: 30%;
-  filter: drop-shadow(0 0 5px white);
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* Allows clics to pass through to buttons under her transparent pixels */
+  z-index: 1; /* Renders behind the backpack */
+}
+
+/* Princess Image placement */
+main section.pnj img {
+  position: absolute;
+  right: -20px;
+  bottom: 0;
+  width: 32%;
+  min-width: 300px;
+  max-width: 440px;
+  filter: drop-shadow(0 -5px 15px rgba(255, 255, 255, 0.15));
+  pointer-events: none;
+}
+
+/* Comic-book Speech Bubble */
+main section.pnj blockquote {
+  position: absolute;
+  right: 320px; /* Offset left of princess */
+  bottom: 240px; /* Float above ground */
+  background: rgba(10, 15, 25, 0.95);
+  border: 1.5px solid var(--gold);
+  border-radius: 20px;
+  padding: 14px 20px;
+  max-width: 250px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 15px rgba(232, 204, 104, 0.15);
+  z-index: 3; /* Always on top of background elements */
+  backdrop-filter: blur(8px);
+  pointer-events: auto; /* Allow selecting dialogue text if desired */
+  margin: 0;
+}
+
+/* Bubble Arrow tail */
+main section.pnj blockquote::after {
+  content: '';
+  position: absolute;
+  right: -10px;
+  bottom: 25px;
+  border-width: 10px 0 10px 10px;
+  border-style: solid;
+  border-color: transparent transparent transparent rgba(10, 15, 25, 0.95);
+  display: block;
+  width: 0;
+}
+
+/* Text in Bubble */
+main section.pnj blockquote p {
+  color: var(--white);
+  font-family: 'Inter', sans-serif;
+  font-size: 13.5px;
+  font-weight: 700;
+  line-height: 1.4;
+  margin: 0;
+  text-align: center;
+}
+
+/* =============================================================
+ * PORTAL BUTTON: RETURN TO ARENA
+ * =============================================================
+ */
+button.btn-return-arena {
+  display: block;
+  width: 280px !important;
+  margin: 25px auto 10px auto !important;
+  padding: 14px 28px !important;
+  background: linear-gradient(135deg, var(--danger) 0%, #ff6b81 100%) !important;
+  color: var(--white) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  border-radius: 50px !important;
+  font-size: 15px !important;
+  font-weight: 900 !important;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(255, 71, 87, 0.4) !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5) !important;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+  z-index: 10;
+  position: relative;
+}
+
+button.btn-return-arena:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 8px 25px rgba(255, 71, 87, 0.6) !important;
+}
+
+button.btn-return-arena:active {
+  transform: translateY(-1px);
 }

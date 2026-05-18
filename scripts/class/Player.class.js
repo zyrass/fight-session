@@ -18,8 +18,14 @@ class Player {
   /** @type {string} La classe de personnage (ex: archère, guerrier, mage...) */
   _type;
   
-  /** @type {number} Les points de vie actuels/maximums du joueur */
+  /** @type {number} Les points de vie actuels du joueur */
   _life;
+
+  /** @type {number} Les points de vie maximums du joueur */
+  _lifeMax;
+
+  /** @type {number} La vie initiale de la classe du héros */
+  _baseLife;
   
   /** @type {number} La force de base du joueur servant à calculer les dégâts */
   _strong;
@@ -111,6 +117,10 @@ class Player {
         this._weapon = "poing";
         break;
     }
+
+    // Initialisation des PV Max et PV de Base du héros
+    this._lifeMax = this._life;
+    this._baseLife = this._life;
   }
 
   // =========================================================================
@@ -147,6 +157,22 @@ class Player {
    */
   get life() {
     return this._life;
+  }
+
+  /**
+   * Obtient les points de vie maximaux.
+   * @returns {number} Les points de vie maximaux.
+   */
+  get lifeMax() {
+    return this._lifeMax;
+  }
+
+  /**
+   * Obtient les points de vie initiaux de base.
+   * @returns {number} Les points de vie de base.
+   */
+  get baseLife() {
+    return this._baseLife;
   }
 
   /**
@@ -240,6 +266,26 @@ class Player {
   }
 
   /**
+   * Modifie les points de vie maximaux du joueur.
+   * @param {number} newLifeMax Les nouveaux points de vie maximaux.
+   */
+  set lifeMax(newLifeMax) {
+    if (typeof newLifeMax === "number") {
+      this._lifeMax = newLifeMax;
+    }
+  }
+
+  /**
+   * Modifie la vie initiale de base.
+   * @param {number} newBaseLife La nouvelle vie initiale.
+   */
+  set baseLife(newBaseLife) {
+    if (typeof newBaseLife === "number") {
+      this._baseLife = newBaseLife;
+    }
+  }
+
+  /**
    * Modifie la valeur de force du joueur.
    * @param {number} newStrong La nouvelle force.
    */
@@ -322,8 +368,11 @@ class Player {
    */
   levelUp() {
     this._level += 1;
-    this._life += Math.floor(this._life / 2);
+    // Gain stable et linéaire de PV Max (+25 par niveau)
+    this._lifeMax += 25;
     this._strong += 5;
+    // Soin complet automatique lors du passage de niveau
+    this._life = this._lifeMax;
   }
 
   /**

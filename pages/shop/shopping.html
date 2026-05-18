@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Shop name</title>
+    <title>Boutique de Potions - RPG</title>
     <!-- STYLE CSS -->
     <link rel="stylesheet" href="../../assets/styles/base.css" />
     <link rel="stylesheet" href="../../assets/styles/style_shop.css" />
@@ -13,124 +13,146 @@
   </head>
   <body>
     <header>
-      <span>RPG en Vanilla JS</span>
+      <div class="header-brand">
+        <span>Shopping</span>
+      </div>
+      
+      <!-- Global Player HUD -->
+      <div class="header-hud">
+        <div class="hud-item hud-level">LVL <span id="hud-lvl-val">1</span></div>
+        <div class="hud-item hud-xp">
+          <span class="hud-xp-label">XP</span>
+          <progress id="hud-xp-bar" max="50" value="0"></progress>
+          <span class="hud-xp-text"><span id="hud-xp-val">0</span> / <span id="hud-xp-max">50</span> XP</span>
+        </div>
+        <div class="hud-item hud-gold">💰 <span id="hud-gold-val">0</span> 💵</div>
+      </div>
+      
+      <div class="header-actions">
+        <button id="btn-reset-game" class="btn-reset-game">Réinitialiser 🔄</button>
+      </div>
     </header>
+    
     <main>
       <h1>Shopping</h1>
-      <section class="menu">
-        <!-- Potion 25% -->
-        <div class="card_container-shop">
-          <img
-            src="../../assets/images/items/potions/potion_vie-25.png"
-            alt="potion de vie"
-          />
-          <div class="card_container-content">
-            <div class="card_container-description">
-              <h4>Potion de vie presque vide</h4>
-              <p>
-                Permet de reprendre 25% de sa vie.<br /><small
-                  >Pardonne moi mais il ne s'agit que des restes... Et tu
-                  connais on évite au maximum le gaspillage.</small
-                >
-              </p>
-            </div>
-            <div class="card_container-action">
-              <div>125 💵</div>
-              <button>+1</button>
-            </div>
-          </div>
-        </div>
-        <!-- Potion 50% -->
-        <div class="card_container-shop">
-          <img
-            src="../../assets/images/items/potions/potion_vie-55.png"
-            alt="potion de vie"
-          />
-          <div class="card_container-content">
-            <div class="card_container-description">
-              <h4>Potion de vie à moitié pleine</h4>
-              <p>
-                Permet de reprendre 50% de sa vie.<br /><small
-                  >Ecoute, c'est la crise et je comprends que tu vas crever si
-                  tu ne te soignes pas. alors je te propose ce produit à moitier
-                  prix.</small
-                >
-              </p>
-            </div>
-            <div class="card_container-action">
-              <div>240 💶</div>
-              <button>+1</button>
-            </div>
-          </div>
-        </div>
-        <!-- Potion 75% -->
-        <div class="card_container-shop">
-          <img
-            src="../../assets/images/items/potions/potion_vie-75.png"
-            alt="potion de vie"
-          />
-          <div class="card_container-content">
-            <div class="card_container-description">
-              <h4>Potion de vie presque pleine</h4>
-              <p>
-                Permet de reprendre 75% de sa vie.<br /><small
-                  >Je t'avoue que cette potion a été utilisé par des aventuriés
-                  qui sont tristement décédé au combat, je te fais une petite
-                  ristourne...</small
-                >
-              </p>
-            </div>
-            <div class="card_container-action">
-              <div>360 💷</div>
-              <button>+1</button>
-            </div>
-          </div>
-        </div>
-        <!-- Potion 100% -->
-        <div class="card_container-shop">
-          <img
-            src="../../assets/images/items/potions/potion_vie-105.png"
-            alt="potion de vie"
-          />
-          <div class="card_container-content">
-            <div class="card_container-description">
-              <h4>Potion de vie parfaite</h4>
-              <p>
-                Permet de reprendre 100% de sa vie.<br /><small>
-                  Là, tu vas devoir payer le prix fort... Comprends-tu que je
-                  vais risquer ma vie sur le champ de bataille pour toi. C'est
-                  ce qui justifie ce prix.
-                </small>
-              </p>
-            </div>
-            <div class="card_container-action">
-              <div>490 💴</div>
-              <button>+1</button>
-            </div>
-          </div>
-        </div>
-      </section>
-      <section class="inventory">
-        <ul>
-          <li>
-            <span>name</span>
-            <div>
-              <span>50</span>
-              <div class="actions">
-                <button>-1</button>
+      
+      <!-- Layout double-colonne (Boutique à gauche, Inventaire à droite) -->
+      <div class="shop-layout">
+        <section class="menu">
+          <!-- Potion 25% -->
+          <div class="card_container-shop">
+            <img
+              src="../../assets/images/items/potions/potion_vie-25.png"
+              alt="potion de vie"
+            />
+            <div class="card_container-content">
+              <div class="card_container-description">
+                <h4>Potion de vie presque vide</h4>
+                <p>
+                  Permet de reprendre 25% de sa vie.<br /><small
+                    >Pardonne moi mais il ne s'agit que des restes... Et tu
+                    connais on évite au maximum le gaspillage.</small
+                  >
+                </p>
+              </div>
+              <div class="card_container-action">
+                <div>25 💵</div>
                 <button>+1</button>
               </div>
             </div>
-          </li>
-        </ul>
-      </section>
+          </div>
+          
+          <!-- Potion 50% -->
+          <div class="card_container-shop">
+            <img
+              src="../../assets/images/items/potions/potion_vie-55.png"
+              alt="potion de vie"
+            />
+            <div class="card_container-content">
+              <div class="card_container-description">
+                <h4>Potion de vie à moitié pleine</h4>
+                <p>
+                  Permet de reprendre 50% de sa vie.<br /><small
+                    >Ecoute, c'est la crise et je comprends que tu vas crever si
+                    tu ne te soignes pas, alors je te propose ce produit à moitié
+                    prix.</small
+                  >
+                </p>
+              </div>
+              <div class="card_container-action">
+                <div>50 💵</div>
+                <button>+1</button>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Potion 75% -->
+          <div class="card_container-shop">
+            <img
+              src="../../assets/images/items/potions/potion_vie-75.png"
+              alt="potion de vie"
+            />
+            <div class="card_container-content">
+              <div class="card_container-description">
+                <h4>Potion de vie presque pleine</h4>
+                <p>
+                  Permet de reprendre 75% de sa vie.<br /><small
+                    >Je t'avoue que cette potion a été utilisée par des aventuriers
+                    qui sont tristement décédés au combat, je te fais une petite
+                    ristourne...</small
+                  >
+                </p>
+              </div>
+              <div class="card_container-action">
+                <div>100 💵</div>
+                <button>+1</button>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Potion 100% -->
+          <div class="card_container-shop">
+            <img
+              src="../../assets/images/items/potions/potion_vie-105.png"
+              alt="potion de vie"
+            />
+            <div class="card_container-content">
+              <div class="card_container-description">
+                <h4>Potion de vie parfaite</h4>
+                <p>
+                  Permet de reprendre 100% de sa vie.<br /><small>
+                    Là, tu vas devoir payer le prix fort... Comprends-tu que je
+                    vais risquer ma vie sur le champ de bataille pour toi. C'est
+                    ce qui justifie ce prix.
+                  </small>
+                </p>
+              </div>
+              <div class="card_container-action">
+                <div>200 💵</div>
+                <button>+1</button>
+              </div>
+            </div>
+          </div>
+        </section>
+        
+        <!-- INVENTAIRE ET CONSOMMATION -->
+        <section class="inventory">
+          <h3>🎒 Ton Sac à Dos</h3>
+          <ul>
+            <!-- Généré dynamiquement en JS -->
+          </ul>
+        </section>
+      </div>
+      
+      <!-- PNJ ET DIALOGUE DE LA MARCHANDE -->
       <section class="pnj">
-        <img src="../../assets/images/pnj/pnj_happy.png" alt="" />
+        <img src="../../assets/images/pnj/pnj_happy.png" alt="Marchande de Potions" />
         <blockquote>
           <p>Message</p>
         </blockquote>
       </section>
     </main>
+    
     <footer>
       <span>Copyright &copy; 2022-2023</span>
       <span id="date"></span>
